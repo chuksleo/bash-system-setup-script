@@ -1,0 +1,181 @@
+#!/bin/bash -eux
+
+
+setup_ppas(){
+	
+
+
+echo "#############################################"
+echo "#"
+echo "#"
+echo "#"
+echo "# ADDING ALL RELEVANT PPA'S AND UPDATING REPO #"
+echo "#"
+echo "#"
+echo "#"
+echo "#############################################"
+
+	sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
+	sudo add-apt-repository "deb http://linux.dropbox.com/ubuntu $(lsb_release -sc) main"	
+	sudo add-apt-repository -y ppa:webupd8team/atom
+       sudo add-apt-repository ppa:webupd8team/sublime-text-3
+	sudo add-apt-repository ppa:jonathonf/python-3.6
+
+
+
+	sudo apt update
+}
+setup_internetsoft(){
+	
+echo "##########################"
+echo "#INSTALLING INTERNET TOOLS"
+echo "##########################"
+	sudo apt install -y chromium-browser
+	
+
+}
+
+
+setup_utilsoft(){
+
+echo "########################################"
+echo "#INSTALLING UTILITY TOOLS"
+echo "########################################"
+
+
+
+
+	echo "###INTALLING GIMP EDITOR #####"
+
+	sudo apt-get install gimp -y
+	
+	echo "###INTALLING MEL DIFF TOOL #####"
+	sudo apt-get install meld -y
+
+
+
+	echo "###INTALLING Audacity EDITOR #####"
+	sudo apt-get install audacity -y
+
+	echo "###INTALLING VLC PLAYER #####"
+	sudo apt-get install vlc -y
+
+}
+
+setup_lampsever(){
+echo "########################################"
+echo "#INSTALLING AND SETTING UP LAMP SERVER"
+echo "########################################"
+	
+	
+	sudo apt-get install -y lamp-server
+	sudo a2enmod rewrite
+	sudo apt-get install -y php5 php5-curl php5-gd php5-mcrypt php5-mysql
+	sudo service apache2 restart
+	sudo apt-get install -y phpmyadmin
+	sudo php5enmod mcrypt
+	sudo service apache2 restart
+	sudo chown root:root /etc/phpmyadmin/ -R
+	sudo chown root:www-data /etc/phpmyadmin/config-db.php
+	sudo chown root:www-data /etc/phpmyadmin/htpasswd.setup
+	sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin.conf
+	sudo /etc/init.d/apache2 reload
+	sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-enabled/phpmyadmin.conf
+	sudo /etc/init.d/apache2 reload
+	sudo service apache2 restart
+	sudo apt-get install mysql-server
+	sudo service mysql restart
+
+}
+
+setup_programmingtools(){
+
+
+echo "###############################################"
+echo "#INSTALLING PROGRAMMING TOOLS"
+echo "###############################################"
+
+	echo "###INTALLING ATOM EDITOR #####"
+
+	sudo apt-get install atom -y
+	
+	echo "###INTALLING Sublime EDITOR #####"
+
+	sudo apt-get install sublime-text-installer -y
+
+}
+
+
+
+setup_devenviroment(){
+echo "###############################################"
+echo "#INSTALLING AND SETTING UP DEV ENVIROMENT"
+echo "###############################################"
+
+
+	
+sudo apt install python-pip -y
+sudo apt-get install curl -y
+sudo apt install rsplib-legacy-wrappers
+echo "##########SETTING UP PYTHON ENVIROMENT ############"
+	sudo apt-get update
+	sudo apt-get -y upgrade
+	sudo apt-get install python3-pip -y
+	sudo apt-get install build-essential libssl-dev libffi-dev python3-dev -y
+	sudo apt-get install -y python3-venv
+
+echo "##########INTALLING SSH ##############"
+	sudo apt install openssh-client -y
+	sudo apt install openssh-server -y
+
+echo "##########INTALLING GIT ##############"
+	sudo apt-get install git -y
+	echo "Enter GIT Email and press [ENTER] :"
+	read email
+	git config --global user.email $email
+	echo "Enter GIT Username and press [ENTER] :"
+	read username
+	git config --global user.name $username
+
+
+
+echo "##########INSTALL GOOGLE CLOUD SDK ##############"
+	tar -xzf files/google-cloud-sdk-208.0.2-linux-x86-64.tar.gz
+	./google-cloud-sdk/install.sh
+
+
+
+echo "########## INTALLING NODEJS ##########"
+	curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+	sudo apt-get install -y nodejs
+	sudo apt-get install npm -y
+
+
+
+echo "########## INTALLING SDKMAN ##########"
+	curl -s "https://get.sdkman.io" | bash
+ 	gnome-terminal -e source "$HOME/.sdkman/bin/sdkman-init.sh"	
+
+echo "########### INTALLING GRAILS ##########"
+	sdk install grails
+
+echo "############### INTALLING JAVA AND SETUP JAVA ENVIROMENT #############"
+	#sudo sdk install java
+	
+
+}
+
+setup_ppas
+
+setup_internetsoft
+
+setup_lampsever
+
+setup_programmingtools
+
+setup_devenviroment
+
+setup_utilsoft
+
+
+pull_projects
